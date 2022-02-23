@@ -3,34 +3,30 @@ description: '🦉 Run squawk to lint PostgreSQL migrations'
 author: 'K-Phoen'
 
 inputs:
-  paths:
+  github_token:
+    description: "GITHUB_TOKEN."
+    required: true
+    default: ${{ github.token }}
+
+  targets:
     description: |
-      Space-separated paths to analyse.
-      Default is './migrations/*.up.sql'.
-    default: './migrations/*.up.sql'
+      Pattern describing what files to lint.
+      See https://github.com/isaacs/minimatch for valid patterns.
+      Default is 'migrations/*.sql'.
+    default: 'migrations/*.sql'
 
   exclude:
     description: |
-      Comma-separated checks to exclude (--exclude flag from squawk)
+      Comma-separated checks to exclude (--exclude flag from squawk).
       Default is empty.
     default: ''
   
   squawk_version:
     description: |
       The squawk version to use.
-      Default is 'v0.8.2'
+      Default is 'v0.8.2'.
     default: v0.8.2
 
 runs:
-  using: 'composite'
-  steps:
-    - name: 'Setup squawk'
-      shell: bash
-      run: |
-        sudo curl -s -L -o /usr/local/bin/squawk https://github.com/sbdchd/squawk/releases/download/${{ inputs.squawk_version }}/squawk-linux-x86_64
-        sudo chmod +x /usr/local/bin/squawk
-
-    - name: 'Lint migrations'
-      shell: bash
-      run: |
-        squawk ${{ inputs.paths }}
+  using: node16
+  main: dist/index.js

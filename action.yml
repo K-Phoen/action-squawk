@@ -21,11 +21,23 @@ inputs:
       Default is empty.
     default: ''
   
+  reporter:
+    description: |
+      Reporter of reviewdog command (`-reporter` flag from [reviewdog](https://github.com/reviewdog/reviewdog)).
+      Default is 'github-pr-review'.
+    default: 'github-pr-review'
+  
   squawk_version:
     description: |
       The squawk version to use.
       Default is 'v0.8.2'.
     default: v0.8.2
+  
+  reviewdog_version:
+    description: |
+      The reviewdog version to use.
+      Default is '0.14.0'.
+    default: '0.14.0'
 
 runs:
   using: node16
